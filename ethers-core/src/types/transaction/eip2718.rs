@@ -218,7 +218,7 @@ impl TypedTransaction {
         encoded.into()
     }
 
-    pub fn rlp_to_sign<T: Into<U64>>(&self) -> Bytes {
+    pub fn rlp_to_sign(&self) -> Bytes {
         let mut encoded = vec![];
         match self {
             Legacy(inner) => {
