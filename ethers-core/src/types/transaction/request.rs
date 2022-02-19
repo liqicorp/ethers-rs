@@ -135,6 +135,15 @@ impl TransactionRequest {
         rlp.out().freeze().into()
     }
 
+    /// Gets the message to sign this transaction
+    pub fn rlp_to_sign(&self) -> Bytes {
+        let mut rlp = RlpStream::new();
+        rlp.begin_list(6);
+        self.rlp_base(&mut rlp);
+
+        rlp.out().freeze().into()
+    }
+
     /// Produces the RLP encoding of the transaction with the provided signature
     pub fn rlp_signed(&self, signature: &Signature) -> Bytes {
         let mut rlp = RlpStream::new();
