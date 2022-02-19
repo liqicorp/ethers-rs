@@ -218,6 +218,25 @@ impl TypedTransaction {
         encoded.into()
     }
 
+    pub fn rlp_to_sign<T: Into<U64>>(&self) -> Bytes {
+        let mut encoded = vec![];
+        match self {
+            Legacy(inner) => {
+                encoded.extend_from_slice(inner.rlp_to_sign().as_ref());
+            }
+            Eip2930(inner) => {
+                encoded.extend_from_slice(&[0x1]);
+                //encoded.extend_from_slice(inner.rlp(chain_id).as_ref());
+            }
+            Eip1559(inner) => {
+                encoded.extend_from_slice(&[0x2]);
+                //encoded.extend_from_slice(inner.rlp(chain_id).as_ref());
+            }
+        };
+
+        encoded.into()
+    }
+
     /// Hashes the transaction's data with the provided chain id
     /// Does not double-RLP encode
     pub fn sighash<T: Into<U64>>(&self, chain_id: T) -> H256 {
