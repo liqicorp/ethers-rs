@@ -226,11 +226,11 @@ impl TypedTransaction {
             }
             Eip2930(inner) => {
                 encoded.extend_from_slice(&[0x1]);
-                //encoded.extend_from_slice(inner.rlp(chain_id).as_ref());
+                panic!("rlp_to_sign not implemented for EIP 2930");
             }
             Eip1559(inner) => {
                 encoded.extend_from_slice(&[0x2]);
-                //encoded.extend_from_slice(inner.rlp(chain_id).as_ref());
+                encoded.extend_from_slice(inner.rlp_to_sign().as_ref());
             }
         };
 
