@@ -135,13 +135,13 @@ impl Eip1559TransactionRequest {
     }
 
     /// Gets the message to sign this transaction
-    pub fn rlp_to_sign(&self) -> Bytes {
-        let mut rlp = RlpStream::new();
-        rlp.begin_list(6);
-        self.rlp_base(&mut rlp);
+    // pub fn rlp_to_sign<T: Into<U64>>(&self, chain_id: T) -> Bytes {
+    //     let mut rlp = RlpStream::new();
+    //     rlp.begin_list(NUM_TX_FIELDS);
+    //     self.rlp_base(chain_id, &mut rlp);
 
-        rlp.out().freeze().into()
-    }
+    //     rlp.out().freeze().into()
+    // }
 
     /// Produces the RLP encoding of the transaction with the provided signature
     pub fn rlp_signed<T: Into<U64>>(&self, chain_id: T, signature: &Signature) -> Bytes {

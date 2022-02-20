@@ -218,7 +218,7 @@ impl TypedTransaction {
         encoded.into()
     }
 
-    pub fn rlp_to_sign(&self) -> Bytes {
+    pub fn rlp_to_sign<T: Into<U64>>(&self, chain_id: T) -> Bytes {
         let mut encoded = vec![];
         match self {
             Legacy(inner) => {
@@ -226,11 +226,11 @@ impl TypedTransaction {
             }
             Eip2930(inner) => {
                 encoded.extend_from_slice(&[0x1]);
-                panic!("rlp_to_sign not implemented for EIP 2930");
+                encoded.extend_from_slice(inner.rlp(chain_id).as_ref());
             }
             Eip1559(inner) => {
                 encoded.extend_from_slice(&[0x2]);
-                encoded.extend_from_slice(inner.rlp_to_sign().as_ref());
+                encoded.extend_from_slice(inner.rlp(chain_id).as_ref());
             }
         };
 
